@@ -1,6 +1,29 @@
 const express = require('express')
 const app = express()
-app.locals.cardList = [{ id: 0, title: 'test', content: 'lorem ipsum' }]
+app.locals.cardList = [
+  { 
+    id: 0, 
+    title: 'test', 
+    content: [
+      {
+        type: 'string',
+        text: 'sample string',
+        checked: null
+      }
+    ]
+  },
+  {
+    id: 01, 
+    title: 'test2', 
+    content: [
+      {
+        type: 'list',
+        text: 'sample list',
+        checked: true
+      }
+    ]
+  }
+]
 
 app.set('port', process.send.PORT || 3000)
 app.locals.title = 'Sticky-Dos'
