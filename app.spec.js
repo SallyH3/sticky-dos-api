@@ -46,5 +46,28 @@ describe('API', () => {
       // console.log(response.body)
       expect(response.body).toEqual(expected)
     })
+
+    it('should respond with a status code if card doesnt exist', async() => {
+      
+    })
+
+    it('should return an error message', async() => {
+
+    })
+  })
+
+  describe('POST /api/v1/cardList', () => {
+
+    it('should return a status of 201 and a new card', async () => {
+
+    })
+
+    it('should return a 422 status code and error message if not ok', async () => {
+
+    })
+
+    it('should return a status of 204 if card is updated', async() => {
+      
+    })
   })
 })
