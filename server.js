@@ -1,77 +1,13 @@
 const express = require('express')
-const app = express()
-// app.use(cors())
-// const cors = require('cors');
 
+const cors = require('cors');
 
-app.use(express.json())
-app.listen(app.get('port'), () => console.log(`${app.locals.title} is running on localhost:${app.get('port')}`))
+const app = require('./app.js')
+app.use(cors())
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
- });
- 
- app.locals.cardList = [
-  { 
-    id: 0, 
-    title: 'test', 
-    content: [
-      {
-        id: 2,
-        type: 'string',
-        text: 'sample string',
-        checked: null
-      }
-    ]
-  },
-  {
-    id: 01, 
-    title: 'test2', 
-    content: [
-      {
-        type: 'list',
-        text: 'sample list',
-        checked: true
-      }
-    ]
-  }
-]
+app.set('port', 3001);
 
- //these below are for home path
- app.get('/', function(req, res, next) {
-  // Handle the get for this route
- });
- 
- app.post('/', function(req, res, next) {
- // Handle the post for this route
- });
+app.listen(app.get('port'), () => {
+  console.log(`App is running on http://localhost:${app.get('port')}`)
+});
 
- //this below is for post of data
- app.post('/api/v1/cardList', (request, response) => {
-   console.log('request', request)
-  const cardList  = request.body;
-  const id = Date.now();
-
-  if (!cardList) {
-    return response.status(422).send({
-      error: request.body
-    });
-  } else {
-    app.locals.cardList.push({ id, cardList });
-    return response.status(201).json({ id, cardList });
-  }
-})
-
-app.set('port', process.send.PORT || 3000)
-app.locals.title = 'Sticky-Dos'
-app.get('/', (request, response) => response.send('Oh hey there'))
-
-app.get('/api/v1/cardList', (request, response) => {
-  const cardList = app.locals.cardList
-    return response.json({ cardList })
-})
-
-app.use(express.json())
-app.listen(app.get('port'), () => console.log(`${app.locals.title} is running on localhost:${app.get('port')}`))
