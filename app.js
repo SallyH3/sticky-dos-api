@@ -25,7 +25,7 @@ app.use(function(req, res, next) {
     ]
   },
   {
-    id: 01, 
+    id: 1, 
     title: 'test2', 
     content: [
       {
@@ -68,7 +68,13 @@ app.get('/', (request, response) => response.send('Oh hey there'))
 
 app.get('/api/v1/cardList', (request, response) => {
   const cardList = app.locals.cardList
+  if(app.locals.cardList.length) {
     return response.json({ cardList })
+  } else {
+    response.status(404).send({
+      error: request.body
+    })
+  }
 })
 
 app.delete('/api/v1/cardList', (request, response) => {
