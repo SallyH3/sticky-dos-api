@@ -71,4 +71,13 @@ app.get('/api/v1/cardList', (request, response) => {
     return response.json({ cardList })
 })
 
+app.delete('/api/v1/cardList', (request, response) => {
+  const cardIndex = app.locals.cardList.findIndex(card => card.id == request.params.id)
+
+  if( cardIndex === -1 ) return response.status(404).json('card not found');
+  
+  app.locals.cardList.splice(cardIndex, 1);
+    return response.sendStatus(204);
+});
+
 module.exports= app 
