@@ -82,4 +82,25 @@ app.delete('/api/v1/cardList/:id', (request, response) => {
     return response.sendStatus(204);
 });
 
+app.put('/api/v1/cardList/:id', (request, response) => {
+  const { title, content } = request.body;
+  let { id } = request.params;
+  id = parseInt(id);
+  let cardFound = false;
+  const updatedCard = app.locals.cardList.map(card => {
+    if ( card.id === request.params.id) {
+      cardFound = true;
+      return { id, title, content };
+    } else {
+      return card;
+    }
+  });
+
+  if (!title || !content ) return response.status(422).json('Missing a title or content ');
+  if (!cardFound) return response.status(404).json('card was not found')
+
+  app.locals.cardList = updatedCard;
+  return res.sendStatus(204)
+})
+
 module.exports= app 
