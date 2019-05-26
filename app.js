@@ -14,23 +14,30 @@ app.use(function(req, res, next) {
  app.locals.cardList = [
   { 
     id: 0, 
-    title: 'test', 
+    title: "Welcome to Sticky Do's", 
     content: [
       {
-        id: 2,
-        type: 'string',
-        text: 'sample string',
+        id: 1,
+        type: 'note',
+        text: 'This is a standard note. Which is the default when you start typing in our input box ⤴️',
         checked: null
       }
     ]
   },
-  {
-    id: 1, 
-    title: 'test2', 
+  { 
+    id: 2, 
+    title: "Example #2", 
     content: [
       {
+        id: 1,
         type: 'list',
-        text: 'sample list',
+        text: 'This is a list item. If you click the ☑️ button in the input box',
+        checked: false
+      },
+      {
+        id: 2,
+        type: 'list',
+        text: 'You can add as many checkList items as you would like!',
         checked: true
       }
     ]
@@ -48,17 +55,16 @@ app.use(function(req, res, next) {
 
  //this below is for post of data
  app.post('/api/v1/cardList', (request, response) => {
-   console.log('request', request)
-  const cardList  = request.body;
+  const {title, content}  = request.body;
   const id = Date.now();
 
-  if (!cardList) {
+  if (!title) {
     return response.status(422).send({
       error: request.body
     });
   } else {
-    app.locals.cardList.push({ id, cardList });
-    return response.status(201).json({ id, cardList });
+    app.locals.cardList.push({ id, title, content });
+    return response.status(201).json({ id, title, content });
   }
 })
 
@@ -68,7 +74,7 @@ app.get('/', (request, response) => response.send('Oh hey there'))
 
 app.get('/api/v1/cardList', (request, response) => {
   const cardList = app.locals.cardList
-  if(app.locals.cardList.length) {
+  if(app.locals.cardList) {
     return response.json({ cardList })
   } else {
     response.status(404).send({
@@ -78,10 +84,8 @@ app.get('/api/v1/cardList', (request, response) => {
 })
 
 app.delete('/api/v1/cardList/:id', (request, response) => {
-  console.log(request.params.id)
   const cardIndex = app.locals.cardList.findIndex(card => card.id == request.params.id)
 
-  console.log('this is cardIndex', cardIndex)
   if( cardIndex == -1 ) return response.status(404).json('card not found');
   
   app.locals.cardList.splice(cardIndex, 1);
