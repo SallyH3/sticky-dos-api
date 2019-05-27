@@ -39,12 +39,6 @@ app.use(function(req, res, next) {
         type: 'list',
         text: 'You can add as many checkList items as you would like!',
         checked: true
-      },
-      {
-        id: 2,
-        type: 'list',
-        text: 'this is the next list item',
-        checked: null
       }
     ]
   }
@@ -61,10 +55,12 @@ app.use(function(req, res, next) {
 
  //this below is for post of data
  app.post('/api/v1/cardList', (request, response) => {
-  const cardList  = request.body;
+  const cardList = request.body;
   const id = Date.now();
 
-  if (!title) {
+  console.log('is this what i think', cardList)
+
+  if (!cardList) {
     return response.status(422).send({
       error: request.body
     });
