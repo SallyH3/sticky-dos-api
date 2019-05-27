@@ -12,26 +12,32 @@ app.use(function(req, res, next) {
  });
  
  app.locals.cardList = [
-  // { 
-  //   id: 2, 
-  //   title: 'test', 
-  //   content: [
-  //     {
-  //       id: 2,
-  //       type: 'note',
-  //       text: 'sample string',
-  //       checked: null
-  //     }
-  //   ]
-  // },
-  {
-    id: 100, 
-    title: 'test2', 
+  { 
+    id: 0, 
+    title: "Welcome to Sticky Do's", 
+    content: [
+      {
+        id: 1,
+        type: 'note',
+        text: 'This is a standard note. Which is the default when you start typing in our input box ⤴️',
+        checked: null
+      }
+    ]
+  },
+  { 
+    id: 2, 
+    title: "Example #2", 
     content: [
       {
         id: 1,
         type: 'list',
-        text: 'list item number one',
+        text: 'This is a list item. If you click the ☑️ button in the input box',
+        checked: false
+      },
+      {
+        id: 2,
+        type: 'list',
+        text: 'You can add as many checkList items as you would like!',
         checked: true
       },
       {
@@ -58,7 +64,7 @@ app.use(function(req, res, next) {
   const cardList  = request.body;
   const id = Date.now();
 
-  if (!cardList) {
+  if (!title) {
     return response.status(422).send({
       error: request.body
     });
@@ -84,10 +90,8 @@ app.get('/api/v1/cardList', (request, response) => {
 })
 
 app.delete('/api/v1/cardList/:id', (request, response) => {
-  console.log(request.params.id)
   const cardIndex = app.locals.cardList.findIndex(card => card.id == request.params.id)
 
-  console.log('this is cardIndex', cardIndex)
   if( cardIndex == -1 ) return response.status(404).json('card not found');
   
   app.locals.cardList.splice(cardIndex, 1);
