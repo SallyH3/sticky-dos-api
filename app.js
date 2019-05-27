@@ -39,6 +39,12 @@ app.use(function(req, res, next) {
         type: 'list',
         text: 'You can add as many checkList items as you would like!',
         checked: true
+      },
+      {
+        id: 2,
+        type: 'list',
+        text: 'this is the next list item',
+        checked: null
       }
     ]
   }
@@ -55,7 +61,7 @@ app.use(function(req, res, next) {
 
  //this below is for post of data
  app.post('/api/v1/cardList', (request, response) => {
-  const {title, content}  = request.body;
+  const cardList  = request.body;
   const id = Date.now();
 
   if (!title) {
@@ -63,8 +69,8 @@ app.use(function(req, res, next) {
       error: request.body
     });
   } else {
-    app.locals.cardList.push({ id, title, content });
-    return response.status(201).json({ id, title, content });
+    app.locals.cardList.push({ id, ...cardList });
+    return response.status(201).json({ id, ...cardList });
   }
 })
 
@@ -91,5 +97,26 @@ app.delete('/api/v1/cardList/:id', (request, response) => {
   app.locals.cardList.splice(cardIndex, 1);
     return response.sendStatus(204);
 });
+
+app.put('/api/v1/cardList/:id', (request, response) => {
+  const { title, content } = request.body;
+  let { id } = request.params;
+  id = parseInt(id);
+  let cardFound = false;
+  const updatedCard = app.locals.cardList.map(card => {
+    if ( card.id === request.params.id) {
+      cardFound = true;
+      return { id, title, content };
+    } else {
+      return card;
+    }
+  });
+
+  if (!title || !content ) return response.status(422).json('Missing a title or content ');
+  if (!cardFound) return response.status(404).json('card was not found')
+
+  app.locals.cardList = updatedCard;
+  return res.sendStatus(204)
+})
 
 module.exports= app 
