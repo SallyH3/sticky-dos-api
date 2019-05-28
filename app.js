@@ -39,12 +39,6 @@ app.use(function(req, res, next) {
         type: 'list',
         text: 'You can add as many checkList items as you would like!',
         checked: true
-      },
-      {
-        id: 2,
-        type: 'list',
-        text: 'this is the next list item',
-        checked: null
       }
     ]
   }
@@ -61,16 +55,15 @@ app.use(function(req, res, next) {
 
  //this below is for post of data
  app.post('/api/v1/cardList', (request, response) => {
-  const cardList  = request.body;
-  const id = Date.now();
+  const cardList = request.body;
 
-  if (!title) {
+  if (!cardList) {
     return response.status(422).send({
       error: request.body
     });
   } else {
-    app.locals.cardList.push({ id, ...cardList });
-    return response.status(201).json({ id, ...cardList });
+    app.locals.cardList.push({...cardList});
+    return response.status(201).json({...cardList});
   }
 })
 
@@ -98,13 +91,15 @@ app.delete('/api/v1/cardList/:id', (request, response) => {
     return response.sendStatus(204);
 });
 
-app.put('/api/v1/cardList/:id', (request, response) => {
+app.put('/api/v1/cardList/:id', (request, res) => {
   const { title, content } = request.body;
   let { id } = request.params;
+  let { cardList } = app.locals;
+
   id = parseInt(id);
   let cardFound = false;
-  const updatedCard = app.locals.cardList.map(card => {
-    if ( card.id === request.params.id) {
+  const updatedCards = cardList.map(card => {
+    if ( card.id == request.params.id) {
       cardFound = true;
       return { id, title, content };
     } else {
@@ -115,7 +110,7 @@ app.put('/api/v1/cardList/:id', (request, response) => {
   if (!title || !content ) return response.status(422).json('Missing a title or content ');
   if (!cardFound) return response.status(404).json('card was not found')
 
-  app.locals.cardList = updatedCard;
+  app.locals.cardList = updatedCards;
   return res.sendStatus(204)
 })
 
