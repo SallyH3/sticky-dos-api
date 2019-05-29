@@ -1,5 +1,5 @@
 # sticky-dos-api
-Backend for (sticky-dos-ui)[https://github.com/SallyHaefling/sticky-dos-ui]
+Backend for [sticky-dos-ui](https://github.com/SallyHaefling/sticky-dos-ui)
 
 ## Setup:
 
