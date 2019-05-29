@@ -56,10 +56,11 @@ app.use(function(req, res, next) {
  //this below is for post of data
  app.post('/api/v1/cardList', (request, response) => {
   const cardList = request.body;
+  const {id, title, content} = cardList;
 
-  if (!cardList) {
+  if (!title || !content) {
     return response.status(422).send({
-      error: request.body
+      error: 'Please be sure to include the title and content'
     });
   } else {
     app.locals.cardList.push({...cardList});
