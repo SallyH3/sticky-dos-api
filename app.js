@@ -1,8 +1,8 @@
 
-//declares express variable and allows use of express?
+//allows use of express library
 const express = require('express');
 
-//declares cors variable and allows use of cors?
+//allows use of cors to solve cross origin request problem
 const cors = require('cors');
 
 //declares express() as the variable app
@@ -12,7 +12,7 @@ app.use(express.json());
 //allows cross origin resource sharing
 app.use(cors());
 
-//I think this does the same thing as the app.us(cors()) but I am actually not sure
+//I think this does the same thing as the app.us(cors()) but I'm not sure we needed it
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -80,9 +80,6 @@ app.use(function(req, res, next) {
 
 //sets 'Stick-Dos' as the title
 app.locals.title = 'Sticky-Dos'
-
-//returns oh hey there if a response is successful
-// app.get('/', (request, response) => response.send('Oh hey there'))
 
 //handles a get request from the cardlist path
 app.get('/api/v1/cardList', (request, response) => {
