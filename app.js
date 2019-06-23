@@ -1,4 +1,8 @@
+
+//declares express variable and allows use of express?
 const express = require('express');
+
+//declares cors variable and allows use of cors?
 const cors = require('cors');
 
 //declares express() as the variable app
@@ -8,11 +12,12 @@ app.use(express.json());
 //allows cross origin resource sharing
 app.use(cors());
 
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-//  });
+//I think this does the same thing as the app.us(cors()) but I am actually not sure
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+ });
  
  //cards we keep save in the backend to provide the user info on how to use the site
  app.locals.cardList = [
